@@ -1,12 +1,13 @@
-import React from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
 import ScriptBlock from "./Partials/ScriptBlock";
 
 const Container = styled.div``;
 
-function ScriptView({ blockList, setBlockList }) {
+function ScriptView({ blockList, setBlockList, scriptInputHeight }) {
+
   return (
-    <Container>
+    <Container style={{marginTop: `${scriptInputHeight}px`}}>
       {blockList.map(
         ({
           sceneId,

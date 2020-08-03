@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useRef } from "react";
 import styled from "styled-components";
 import ScriptView from "./Components/ScriptView";
 import ScriptInput from "./Components/ScriptInput";
@@ -12,6 +12,7 @@ const Container = styled.div`
 function App() {
   const cachedBlockList = loadBlockList()
   let [blockList, setBlockList] = useState(cachedBlockList);
+  let [scriptInputHeight, setScriptInputHeight] = useState(0)
 
   const createNewBlock = (blockData) => {
     saveBlockList([...blockList, blockData])
@@ -23,11 +24,12 @@ function App() {
       <ScriptInput
         blockList={blockList}
         createNewBlock={createNewBlock}
+        setScriptInputHeight={setScriptInputHeight}
       ></ScriptInput>
-      <hr />
       <ScriptView
         blockList={blockList}
         setBlockList={setBlockList}
+        scriptInputHeight={scriptInputHeight}
       ></ScriptView>
     </Container>
   );
