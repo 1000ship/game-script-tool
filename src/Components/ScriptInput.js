@@ -23,7 +23,7 @@ const Label = styled.label``;
 const TextInput = styled.input``;
 const TextArea = styled.textarea`
   width: 100%;
-  height: 100px;
+  height: 50px;
   display: block;
 `;
 

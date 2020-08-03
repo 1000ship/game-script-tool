@@ -26,6 +26,12 @@ const FileDescription = styled.span`
   margin-right: 10px;
   font-size: 13px;
 `;
+const Script = styled.span`
+  background-color: white;
+  border-radius: 5px;
+  padding: 3px;
+  display: inline-block;
+`;
 
 const MenuGroup = styled.ul`
   margin: 0px;
@@ -88,7 +94,7 @@ function ScriptBlock(props) {
       <ol>
         {options.map(({ answer, reaction, nextId }, i) => (
           <li key={i}>
-            {answer} → {reaction} → {nextId}
+            <Script>{answer}</Script> → <Script>{reaction}</Script> → {nextId}
           </li>
         ))}
       </ol>

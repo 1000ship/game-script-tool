@@ -2,7 +2,9 @@ import React, { useState } from "react";
 import styled from "styled-components";
 import ScriptBlock from "./Partials/ScriptBlock";
 
-const Container = styled.div``;
+const Container = styled.div`
+  padding: 5px 0px;
+`;
 
 function ScriptView({ blockList, setBlockList, scriptInputHeight }) {
 
