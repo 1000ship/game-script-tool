@@ -5,7 +5,9 @@ import ScriptInput from "./Components/ScriptInput";
 import { loadBlockList, saveBlockList } from "./Utils/api";
 
 const Container = styled.div`
-  width: 80%;
+  @media(min-width: 800px){
+    width: 80%;
+  }
   margin: auto auto;
 `;
 

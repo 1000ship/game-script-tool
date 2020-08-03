@@ -2,12 +2,14 @@ import React, { useState, useRef, createRef, useEffect } from "react";
 import styled from "styled-components";
 
 const Container = styled.div`
-  width: 80%;
-  padding: 15px 0px;
+  @media(min-width: 800px){
+    width: 80%;
+    left: 10%;
+  }
+  padding: 10px 0px;
   margin: auto auto;
   background-color: white;
   position: fixed;
-  left: 10%;
   top: 0;
   z-index: 1;
   border-bottom: 1px solid gray;
