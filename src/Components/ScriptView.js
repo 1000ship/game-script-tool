@@ -2,30 +2,34 @@ import React from "react";
 import styled from "styled-components";
 import ScriptBlock from "./Partials/ScriptBlock";
 
-const Container = styled.div`
-`;
+const Container = styled.div``;
 
-function ScriptView() {
+function ScriptView({ blockList, setBlockList }) {
   return (
     <Container>
-      <ScriptBlock
-        sceneId="#3-1"
-        characterName="John Mayer"
-        sceneScript="Hello, the weather is sunny"
-        characterImage="smile.png"
-        backgroundImage="park.png"
-        sceneSound="laugh.mp3"
-        options={[]}
-      ></ScriptBlock>
-      <ScriptBlock
-        sceneId="#3-1"
-        characterName="John Mayer"
-        sceneScript="Hello, the weather is sunny"
-        characterImage="smile.png"
-        backgroundImage="park.png"
-        sceneSound="laugh.mp3"
-        options={[]}
-      ></ScriptBlock>
+      {blockList.map(
+        ({
+          sceneId,
+          characterName,
+          sceneScript,
+          characterImage,
+          backgroundImage,
+          sceneSound,
+          options,
+        }, i) => (
+          <ScriptBlock
+            key={sceneId}
+            sceneId={sceneId}
+            characterName={characterName}
+            sceneScript={sceneScript}
+            characterImage={characterImage}
+            backgroundImage={backgroundImage}
+            sceneSound={sceneSound}
+            options={options}
+            setBlockList={setBlockList}
+          ></ScriptBlock>
+        )
+      )}
     </Container>
   );
 }

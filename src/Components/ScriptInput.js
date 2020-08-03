@@ -21,8 +21,8 @@ const TextArea = styled.textarea`
   display: block;
 `;
 
-function ScriptInput() {
-  let [formData, setFormData] = useState({
+function ScriptInput ( {createNewBlock, blockList} ) {
+  const defaultState = {
     sceneId: "",
     characterName: "",
     sceneScript: "",
@@ -36,7 +36,8 @@ function ScriptInput() {
         nextId: "",
       },
     ],
-  });
+  }
+  let [formData, setFormData] = useState(defaultState);
   let {
     sceneId,
     characterName,
@@ -77,6 +78,19 @@ function ScriptInput() {
         ...formData,
         options: options.slice(0, options.length - 1)
       })
+  }
+
+  const onNewBlockClick = (e) => {
+    if( sceneId.length === 0 )
+      alert( "Scene ID를 입력하세요.")
+    else if( blockList.find( block => block.sceneId === sceneId ) ) {
+      alert( "중복되는 Scene ID가 있습니다." )
+    }
+    else if(createNewBlock)
+    {
+      createNewBlock( Object.assign({}, formData) )
+      setFormData(defaultState)
+    }
   }
 
   return (
@@ -187,7 +201,7 @@ function ScriptInput() {
         선택지 삭제
       </button>
       <br />
-      <button>블럭 추가</button>
+      <button onClick={onNewBlockClick}>블럭 추가</button>
     </Container>
   );
 }
