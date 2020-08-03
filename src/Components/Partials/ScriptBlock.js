@@ -11,9 +11,21 @@ const Container = styled.div`
 const SceneID = styled.div`
   font-weight: 600;
 `;
-const CharacterName = styled.div``;
-const SceneScript = styled.div``;
+const CharacterName = styled.div`
+  font-style: italic;
+  margin-top: 5px;
+`;
+const SceneScript = styled.div`
+  margin-top: 5px;
+  background-color: white;
+  padding: 5px;
+  border-radius: 3px;
+`;
 const OptionGroup = styled.div``;
+const FileDescription = styled.span`
+  margin-right: 10px;
+  font-size: 13px;
+`;
 
 const MenuGroup = styled.ul`
   margin: 0px;
@@ -70,13 +82,13 @@ function ScriptBlock(props) {
       <SceneID>{sceneId}</SceneID>
       <CharacterName>{characterName}</CharacterName>
       <SceneScript>{sceneScript}</SceneScript>
-      <div>{characterImage}</div>
-      <div>{backgroundImage}</div>
-      <div>{sceneSound}</div>
+      <FileDescription>{characterImage}</FileDescription>
+      <FileDescription>{backgroundImage}</FileDescription>
+      <FileDescription>{sceneSound}</FileDescription>
       <ol>
         {options.map(({ answer, reaction, nextId }, i) => (
           <li key={i}>
-            {answer} / {reaction} / {nextId}
+            {answer} → {reaction} → {nextId}
           </li>
         ))}
       </ol>
