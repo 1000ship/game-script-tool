@@ -105,11 +105,12 @@ function ScriptInput({ createNewBlock, blockList, setScriptInputHeight }) {
     }
   };
 
+  // 개선 필요
   const scriptInputElement = createRef()
   useEffect( (e) => {
     if( scriptInputElement?.current === undefined ) return
     setScriptInputHeight( scriptInputElement.current?.offsetHeight)
-  }, [scriptInputElement?.current?.offsetHeight])
+  }, [scriptInputElement])
 
   return (
     <Container ref={scriptInputElement}>
