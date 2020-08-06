@@ -6,10 +6,10 @@ const Container = styled.div`
   padding: 5px 0px;
 `;
 
-function ScriptView({ blockList, setBlockList, scriptInputHeight }) {
+function ScriptView({ blockList, setBlockList }) {
 
   return (
-    <Container style={{marginTop: `${scriptInputHeight}px`}}>
+    <Container>
       {blockList.map(
         ({
           sceneId,

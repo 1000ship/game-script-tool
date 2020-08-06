@@ -1,19 +1,13 @@
-import React, { useState, useRef, createRef, useEffect } from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
 import { OPTION_MINIMUM_COUNT } from "../Utils/Constant";
 
 const Container = styled.div`
-  @media (min-width: 800px) {
-    width: 80%;
-    left: 10%;
-  }
+  display: ${({isOpend}) => isOpend ? 'block' :'none' };
   padding: 10px 0px;
   margin: auto auto;
-  background-color: white;
-  position: fixed;
-  top: 0;
-  z-index: 1;
   border-bottom: 1px solid gray;
+  z-index: 1;
 `;
 const InputGroup = styled.div`
   display: flex;
@@ -30,7 +24,7 @@ const TextArea = styled.textarea`
   display: block;
 `;
 
-function ScriptInput({ createNewBlock, blockList, setScriptInputHeight }) {
+function ScriptInput({ createNewBlock, blockList, isOpend }) {
   const defaultState = {
     sceneId: "",
     characterName: "",
@@ -115,18 +109,8 @@ function ScriptInput({ createNewBlock, blockList, setScriptInputHeight }) {
     }
   };
 
-  // 개선 필요
-  const scriptInputElement = createRef();
-  useEffect(
-    (e) => {
-      if (scriptInputElement?.current === undefined) return;
-      setScriptInputHeight(scriptInputElement.current?.offsetHeight);
-    },
-    [scriptInputElement]
-  );
-
   return (
-    <Container ref={scriptInputElement}>
+    <Container isOpend={isOpend}>
       <InputPair>
         <span>Scene Type : </span>
         <TextInput
