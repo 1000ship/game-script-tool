@@ -1,8 +1,9 @@
 import React, { useState, useRef, createRef, useEffect } from "react";
 import styled from "styled-components";
+import { OPTION_MINIMUM_COUNT } from "../Utils/Constant";
 
 const Container = styled.div`
-  @media(min-width: 800px){
+  @media (min-width: 800px) {
     width: 80%;
     left: 10%;
   }
@@ -37,6 +38,7 @@ function ScriptInput({ createNewBlock, blockList, setScriptInputHeight }) {
     characterImage: "",
     backgroundImage: "",
     sceneSound: "",
+    nextSceneId: "",
     options: [
       {
         answer: "",
@@ -44,6 +46,7 @@ function ScriptInput({ createNewBlock, blockList, setScriptInputHeight }) {
         nextId: "",
       },
     ],
+    sceneType: "meet",
   };
   let [formData, setFormData] = useState(defaultState);
   let {
@@ -53,22 +56,29 @@ function ScriptInput({ createNewBlock, blockList, setScriptInputHeight }) {
     characterImage,
     backgroundImage,
     sceneSound,
+    nextSceneId,
     options,
+    sceneType,
   } = formData;
 
   const onInputChange = (e) => {
     const {
       name,
       value,
-      dataset: { optionIndex },
+      dataset: { optionIndex, value: dataValue },
     } = e.target;
     if (formData[name] === undefined && optionIndex === undefined) return;
-    if (optionIndex === undefined)
+    if ( dataValue !== undefined ) // for radio button
+      setFormData({
+        ...formData,
+        [name]: dataValue,
+      });
+    else if (optionIndex === undefined) // for text input
       setFormData({
         ...formData,
         [name]: value,
       });
-    else {
+    else { // for option text input
       setFormData((data) => {
         data.options[optionIndex][name] = value;
         return Object.assign({}, data);
@@ -88,7 +98,7 @@ function ScriptInput({ createNewBlock, blockList, setScriptInputHeight }) {
   };
 
   const onOptionRemoveClick = (e) => {
-    if (options.length > 1)
+    if (options.length > OPTION_MINIMUM_COUNT)
       setFormData({
         ...formData,
         options: options.slice(0, options.length - 1),
@@ -106,14 +116,38 @@ function ScriptInput({ createNewBlock, blockList, setScriptInputHeight }) {
   };
 
   // 개선 필요
-  const scriptInputElement = createRef()
-  useEffect( (e) => {
-    if( scriptInputElement?.current === undefined ) return
-    setScriptInputHeight( scriptInputElement.current?.offsetHeight)
-  }, [scriptInputElement])
+  const scriptInputElement = createRef();
+  useEffect(
+    (e) => {
+      if (scriptInputElement?.current === undefined) return;
+      setScriptInputHeight(scriptInputElement.current?.offsetHeight);
+    },
+    [scriptInputElement]
+  );
 
   return (
     <Container ref={scriptInputElement}>
+      <InputPair>
+        <span>Scene Type : </span>
+        <TextInput
+          name="sceneType"
+          id="scene-type-meet"
+          data-value="meet"
+          type="radio"
+          checked={sceneType === "meet"}
+          onChange={onInputChange}
+        ></TextInput>
+        <Label htmlFor="scene-type-meet">만남</Label>
+        <TextInput
+          name="sceneType"
+          id="scene-type-text"
+          data-value="text"
+          type="radio"
+          checked={sceneType === "text"}
+          onChange={onInputChange}
+        ></TextInput>
+        <Label htmlFor="scene-type-text">문자</Label>
+      </InputPair>
       <InputPair>
         <Label htmlFor="scene-id">Scene ID : </Label>
         <TextInput
@@ -184,39 +218,55 @@ function ScriptInput({ createNewBlock, blockList, setScriptInputHeight }) {
         </InputPair>
       </InputGroup>
 
-      {options.map(({ answer, reaction, nextId }, i) => (
-        <InputPair key={i} style={{display:'flex'}}>
-          <Label>{i + 1}. </Label>
+      {options.length > 0 ? (
+        options.map(({ answer, reaction, nextId }, i) => (
+          <InputPair key={i} style={{ display: "flex" }}>
+            <Label>{i + 1}. </Label>
+            <TextInput
+              style={{ flex: 1 }}
+              type="text"
+              placeholder="(대답) I like too"
+              name="answer"
+              data-option-index={i}
+              value={answer}
+              onChange={onInputChange}
+            ></TextInput>
+            <TextInput
+              style={{ flex: 1 }}
+              type="text"
+              placeholder="(반응) Let's meet now"
+              name="reaction"
+              data-option-index={i}
+              value={reaction}
+              onChange={onInputChange}
+            ></TextInput>
+            <TextInput
+              type="text"
+              placeholder={`#3-${i + 2}`}
+              name="nextId"
+              data-option-index={i}
+              value={nextId}
+              onChange={onInputChange}
+            ></TextInput>
+          </InputPair>
+        ))
+      ) : (
+        <InputPair>
+          <Label htmlFor="next-scene-id">Next Scene ID : </Label>
           <TextInput
-            style={{flex: 1}}
-            type="text"
-            placeholder="(대답) I like too"
-            name="answer"
-            data-option-index={i}
-            value={answer}
+            name="nextSceneId"
+            value={nextSceneId}
             onChange={onInputChange}
-          ></TextInput>
-          <TextInput
-            style={{flex: 1}}
+            id="next-scene-id"
             type="text"
-            placeholder="(반응) Let's meet now"
-            name="reaction"
-            data-option-index={i}
-            value={reaction}
-            onChange={onInputChange}
-          ></TextInput>
-          <TextInput
-            type="text"
-            placeholder={`#3-${i + 2}`}
-            name="nextId"
-            data-option-index={i}
-            value={nextId}
-            onChange={onInputChange}
+            placeholder="#4-1"
           ></TextInput>
         </InputPair>
-      ))}
+      )}
       <button onClick={onOptionAddClick}>선택지 추가</button>
-      <button onClick={onOptionRemoveClick}>선택지 삭제</button>
+      {options.length > 0 && (
+        <button onClick={onOptionRemoveClick}>선택지 삭제</button>
+      )}
       <br />
       <button onClick={onNewBlockClick}>블럭 추가</button>
     </Container>
