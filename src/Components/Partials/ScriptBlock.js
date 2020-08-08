@@ -86,9 +86,9 @@ function ScriptBlock(props) {
       <SceneID>{sceneId} <small>{sceneType === "text" ? "💬채팅" : "👥만남"}</small></SceneID>
       <CharacterName>{characterName}</CharacterName>
       <SceneScript>{sceneScript}</SceneScript>
-      <FileDescription>{characterImage}</FileDescription>
-      <FileDescription>{backgroundImage}</FileDescription>
-      <FileDescription>{sceneSound}</FileDescription>
+      {characterImage?.length > 0 && <FileDescription>🕺🏻{characterImage}</FileDescription>}
+      {backgroundImage?.length > 0 && <FileDescription>🏞{backgroundImage}</FileDescription>}
+      {sceneSound?.length > 0 && <FileDescription>🔈{sceneSound}</FileDescription>}
       {options.length === 0 ? 
         <div>Next Scene ID : {nextSceneId}</div>
       : (
