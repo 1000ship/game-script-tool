@@ -11,7 +11,7 @@ const Container = styled.div`
 `
 
 const ControlButton = styled.button`
-  padding: 8px 5px;
+  padding: 5px 5px;
 `
 
 const ControlMenu = ({toggleSceneForm}) => {
@@ -24,9 +24,19 @@ const ControlMenu = ({toggleSceneForm}) => {
 
   }
 
+  const onImportClick = (e) => {
+
+  }
+
+  const onExportClick = (e) => {
+    
+  }
+
   return <Container>
     <ControlButton onClick={onAddSceneBlockClick}>Add Scene Block</ControlButton>
     <ControlButton onClick={onAddEndingBlockClick}>Add Ending Block</ControlButton>
+    <ControlButton onClick={onImportClick}>Import Script</ControlButton>
+    <ControlButton onClick={onExportClick}>Export Script</ControlButton>
   </Container>;
 };
 

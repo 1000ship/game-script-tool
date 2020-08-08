@@ -17,11 +17,13 @@ function ScriptView({ blockList, setBlockList }) {
         ...blockList.slice(0, index),
         ...blockList.slice(index + 1),
       ];
-      return [
+      const result = [
         ...tmpArray.slice(0, at),
         blockList[index],
         ...tmpArray.slice(at),
-      ];
+      ]
+      saveBlockList(result)
+      return result;
     });
   };
 

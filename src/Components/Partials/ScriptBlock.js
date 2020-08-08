@@ -8,7 +8,8 @@ const Container = styled.div`
   position: relative;
 `;
 const SceneID = styled.div`
-  font-weight: 600;
+  font-weight: 800;
+  cursor: pointer;
 `;
 const CharacterName = styled.div`
   font-style: italic;
