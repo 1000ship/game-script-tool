@@ -27,7 +27,7 @@ const FileDescription = styled.span`
   font-size: 13px;
 `;
 const Script = styled.span`
-  background-color: white;
+  background-color: ${props => props.color ? props.color : 'white'};
   border-radius: 5px;
   padding: 3px;
   display: inline-block;
@@ -60,6 +60,8 @@ function ScriptBlock(props) {
     backgroundImage,
     sceneSound,
     options,
+    nextSceneId,
+    sceneType,
     setBlockList,
   } = props;
 
@@ -91,13 +93,21 @@ function ScriptBlock(props) {
       <FileDescription>{characterImage}</FileDescription>
       <FileDescription>{backgroundImage}</FileDescription>
       <FileDescription>{sceneSound}</FileDescription>
-      <ol>
-        {options.map(({ answer, reaction, nextId }, i) => (
-          <li key={i}>
-            <Script>{answer}</Script> → <Script>{reaction}</Script> → {nextId}
-          </li>
-        ))}
-      </ol>
+      {options.length === 0 ? 
+        <div>Next Scene ID : {nextSceneId}</div>
+      : (
+        <ol>
+          {options.map(({ answer, reaction, nextId }, i) => (
+            <li key={i}>
+              {answer?.length > 0 ? <Script color="lightcyan">{answer}</Script> : null}
+              {answer?.length > 0 ? ' → ' : null}
+              {reaction?.length > 0 ? <Script color='lightyellow'>{reaction}</Script> : null}
+              {reaction?.length > 0 ? ' → ' : null}
+              {nextId}
+            </li>
+          ))}
+        </ol>
+      )}
       <OptionGroup></OptionGroup>
     </Container>
   );

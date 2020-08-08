@@ -19,6 +19,8 @@ function ScriptView({ blockList, setBlockList }) {
           backgroundImage,
           sceneSound,
           options,
+          nextSceneId,
+          sceneType,
         }, i) => (
           <ScriptBlock
             key={sceneId}
@@ -30,6 +32,8 @@ function ScriptView({ blockList, setBlockList }) {
             sceneSound={sceneSound}
             options={options}
             setBlockList={setBlockList}
+            nextSceneId={nextSceneId}
+            sceneType={sceneType}
           ></ScriptBlock>
         )
       )}
