@@ -9,7 +9,7 @@ const Container = styled.div`
 
 function ScriptView({ blockList, setBlockList }) {
   const moveBlockBy = (sceneId, by) => {
-    const index = blockList.findIndex((block) => (block.sceneId = sceneId));
+    const index = blockList.findIndex((block) => (block.sceneId === sceneId));
     const at = index + by;
     if (at < 0 || at >= blockList.length) return;
     setBlockList((blockList) => {
@@ -17,13 +17,6 @@ function ScriptView({ blockList, setBlockList }) {
         ...blockList.slice(0, index),
         ...blockList.slice(index + 1),
       ];
-      console.log(
-        tmpArray.map(i=>i.sceneId), blockList[index],
-        index, at,
-        [...tmpArray.slice(0, at), blockList[index], ...tmpArray.slice(at)].map(
-          (i) => i.sceneId
-        )
-      );
       return [
         ...tmpArray.slice(0, at),
         blockList[index],
