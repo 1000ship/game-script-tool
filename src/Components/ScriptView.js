@@ -27,7 +27,8 @@ function ScriptView({ blockList, setBlockList }) {
     });
   };
 
-  const removeBlockBy = (sceneId) => {
+  const removeBlock = (sceneId) => {
+    if( !window.confirm("삭제한 후 되돌릴 수 없습니다. 삭제하시겠습니까?") ) return
     setBlockList((blockList) => {
       const removeIndex = blockList.findIndex(
         (block) => block.sceneId === sceneId
@@ -70,7 +71,7 @@ function ScriptView({ blockList, setBlockList }) {
             nextSceneId={nextSceneId}
             sceneType={sceneType}
             moveBlockBy={moveBlockBy}
-            removeBlockBy={removeBlockBy}
+            removeBlock={removeBlock}
           ></ScriptBlock>
         )
       )}
