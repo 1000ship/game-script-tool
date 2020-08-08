@@ -10,6 +10,11 @@ const Container = styled.div`
 const SceneID = styled.div`
   font-weight: 800;
   cursor: pointer;
+  & small {
+    font-weight: 400;
+    cursor: default;
+    margin-left: 8px;
+  }
 `;
 const CharacterName = styled.div`
   font-style: italic;
@@ -78,7 +83,7 @@ function ScriptBlock(props) {
         <MenuItem onClick={onRemoveClick}>삭제</MenuItem>
         <MenuItem>수정</MenuItem>
       </MenuGroup>
-      <SceneID>{sceneId}</SceneID>
+      <SceneID>{sceneId} <small>{sceneType === "text" ? "💬채팅" : "👥만남"}</small></SceneID>
       <CharacterName>{characterName}</CharacterName>
       <SceneScript>{sceneScript}</SceneScript>
       <FileDescription>{characterImage}</FileDescription>
