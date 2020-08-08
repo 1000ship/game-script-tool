@@ -1,6 +1,5 @@
 import React from "react";
 import styled from "styled-components";
-import { saveBlockList } from "../../Utils/api";
 
 const Container = styled.div`
   background-color: #efefef;
@@ -62,28 +61,19 @@ function ScriptBlock(props) {
     options,
     nextSceneId,
     sceneType,
-    setBlockList,
+    moveBlockBy,
+    removeBlock,
   } = props;
 
   const onRemoveClick = () => {
-    setBlockList((blockList) => {
-      const removeIndex = blockList.findIndex(
-        (block) => block.sceneId === sceneId
-      );
-      saveBlockList(
-        blockList.slice(0, removeIndex).concat(blockList.slice(removeIndex + 1))
-      );
-      return blockList
-        .slice(0, removeIndex)
-        .concat(blockList.slice(removeIndex + 1));
-    });
+    removeBlock(sceneId)
   };
 
   return (
     <Container>
       <MenuGroup>
-        <MenuItem>위로</MenuItem>
-        <MenuItem>아래로</MenuItem>
+        <MenuItem onClick={e => moveBlockBy(sceneId, -1)}>위로</MenuItem>
+        <MenuItem onClick={e => moveBlockBy(sceneId, 1)}>아래로</MenuItem>
         <MenuItem onClick={onRemoveClick}>삭제</MenuItem>
         <MenuItem>수정</MenuItem>
       </MenuGroup>
