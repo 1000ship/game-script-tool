@@ -5,7 +5,6 @@ import { OPTION_MINIMUM_COUNT } from "../Utils/Constant";
 const Container = styled.div`
   display: ${({isOpend}) => isOpend ? 'block' :'none' };
   padding: 10px 0px;
-  margin: auto auto;
   border-bottom: 1px solid gray;
   z-index: 1;
 `;
