@@ -20,6 +20,7 @@ const BlockContainer = styled.div`
 `;
 
 function App() {
+
   const cachedBlockList = loadBlockList();
   let [blockList, setBlockList] = useState(cachedBlockList);
   let [isSceneFormOpened, setIsSceneFormOpened] = useState(false);

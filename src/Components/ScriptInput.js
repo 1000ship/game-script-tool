@@ -100,8 +100,8 @@ function ScriptInput({ createNewBlock, blockList, isOpend }) {
 
   const onNewBlockClick = (e) => {
     if (sceneId.length === 0) alert("Scene ID를 입력하세요.");
-    else if (blockList.find((block) => block.sceneId === sceneId)) {
-      alert("중복되는 Scene ID가 있습니다.");
+    else if (blockList.find((block) => block.sceneId === sceneId && block.sceneType === sceneType)) {
+      alert("중복되는 Scene Type과 Scene ID가 있습니다.");
     } else if (createNewBlock) {
       createNewBlock(Object.assign({}, formData));
       setFormData(defaultState);
