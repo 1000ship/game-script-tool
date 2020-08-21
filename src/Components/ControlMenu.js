@@ -1,7 +1,6 @@
 import React, { useRef } from "react";
 import styled from "styled-components";
-import fs from 'fs'
-import { exportScript, importScript } from "../Utils/api";
+import { exportScript, importScript, saveBlockList } from "../Utils/api";
 
 const Container = styled.div`
   position: fixed;
@@ -16,7 +15,7 @@ const ControlButton = styled.button`
   padding: 5px 5px;
 `;
 
-const ControlMenu = ({ toggleSceneForm, blockList,setBlockList }) => {
+const ControlMenu = ({ toggleSceneForm, blockList, setBlockList }) => {
   const onAddSceneBlockClick = (e) => {
     toggleSceneForm();
   };
@@ -24,33 +23,30 @@ const ControlMenu = ({ toggleSceneForm, blockList,setBlockList }) => {
   const onAddEndingBlockClick = (e) => {};
 
   const onImportClick = (e) => {
-    importScript( (data) => setBlockList(data) )
+    importScript((data) => {
+      setBlockList(data);
+      saveBlockList(data);
+    });
   };
 
   const onExportClick = (e) => {
-    exportScript(blockList)
+    exportScript(blockList);
   };
 
-  const onFileChange = (e) => {
-    var input = e.target;
-    var reader = new FileReader();
-    reader.onload = function () {
-      var data = reader.result;
-      console.log(JSON.parse(data));
-    };
-    reader.readAsText(input.files[0]);
+  const onClearScriptClick = (e) => {
+    if (!window.confirm("정말 모든 Scene을 삭제할까요??")) return;
+    setBlockList([]);
+    window.alert("삭제했습니다. 원치않았다면 지금 당장 새로고침을 눌러주세요.");
   };
-
-  // CreateTextFile
-  
 
   return (
     <Container>
+      <ControlButton onClick={onClearScriptClick}>Clear Script</ControlButton>
       <ControlButton onClick={onAddSceneBlockClick}>
         Add Scene Block
       </ControlButton>
       <ControlButton onClick={onAddEndingBlockClick}>
-        Add Ending Block
+        Add Ending Block(미완성)
       </ControlButton>
       <ControlButton onClick={onImportClick}>Import Script</ControlButton>
       <ControlButton onClick={onExportClick}>Export Script</ControlButton>
