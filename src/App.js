@@ -25,10 +25,6 @@ function App() {
   let [isSceneFormOpened, setIsSceneFormOpened] = useState(false);
   let [modifySceneId, setModifySceneId] = useState(null);
 
-  const toggleSceneForm = () => {
-    setIsSceneFormOpened((opened) => !opened);
-  };
-
   const createNewBlock = (blockData) => {
     saveBlockList([...blockList, blockData]);
     setBlockList([...blockList, blockData]);
@@ -59,9 +55,10 @@ function App() {
   return (
     <Container>
       <ControlMenu
-        toggleSceneForm={toggleSceneForm}
         blockList={blockList}
         setBlockList={setBlockList}
+        setModifySceneId={setModifySceneId}
+        setIsSceneFormOpened={setIsSceneFormOpened}
       ></ControlMenu>
       <ScriptInput
         blockList={blockList}

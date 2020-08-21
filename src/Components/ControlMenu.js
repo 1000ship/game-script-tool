@@ -15,9 +15,15 @@ const ControlButton = styled.button`
   padding: 5px 5px;
 `;
 
-const ControlMenu = ({ toggleSceneForm, blockList, setBlockList }) => {
+const ControlMenu = ({
+  blockList,
+  setBlockList,
+  setModifySceneId,
+  setIsSceneFormOpened,
+}) => {
   const onAddSceneBlockClick = (e) => {
-    toggleSceneForm();
+    setIsSceneFormOpened((isOpend) => !isOpend);
+    setModifySceneId(null);
   };
 
   const onAddEndingBlockClick = (e) => {};
