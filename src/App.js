@@ -20,7 +20,6 @@ const BlockContainer = styled.div`
 `;
 
 function App() {
-
   const cachedBlockList = loadBlockList();
   let [blockList, setBlockList] = useState(cachedBlockList);
   let [isSceneFormOpened, setIsSceneFormOpened] = useState(false);
@@ -36,7 +35,11 @@ function App() {
 
   return (
     <Container>
-      <ControlMenu toggleSceneForm={toggleSceneForm}></ControlMenu>
+      <ControlMenu
+        toggleSceneForm={toggleSceneForm}
+        blockList={blockList}
+        setBlockList={setBlockList}
+      ></ControlMenu>
       <ScriptInput
         blockList={blockList}
         createNewBlock={createNewBlock}
