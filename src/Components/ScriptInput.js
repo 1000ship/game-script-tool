@@ -3,7 +3,7 @@ import styled from "styled-components";
 import { OPTION_MINIMUM_COUNT } from "../Utils/Constant";
 
 const Container = styled.div`
-  display: ${({isOpend}) => isOpend ? 'block' :'none' };
+  display: ${({ isOpend }) => (isOpend ? "block" : "none")};
   padding: 10px 0px;
   border-bottom: 1px solid gray;
   z-index: 1;
@@ -23,8 +23,17 @@ const TextArea = styled.textarea`
   display: block;
 `;
 
-function ScriptInput({ createNewBlock, blockList, isOpend }) {
+export const EDIT_MODE_CREATE = "create";
+export const EDIT_MODE_MODIFY = "modify";
+
+function ScriptInput({
+  createNewBlock,
+  blockList,
+  isOpend,
+  modifySceneId = null,
+}) {
   const defaultState = {
+    editMode: EDIT_MODE_CREATE,
     sceneId: "",
     characterName: "",
     sceneScript: "",
@@ -41,7 +50,11 @@ function ScriptInput({ createNewBlock, blockList, isOpend }) {
     ],
     sceneType: "meet",
   };
-  let [formData, setFormData] = useState(defaultState);
+  let [formData, setFormData] = useState(
+    modifySceneId
+      ? blockList.find((data) => data.sceneId === modifySceneId)
+      : defaultState
+  );
   let {
     sceneId,
     characterName,
@@ -61,17 +74,20 @@ function ScriptInput({ createNewBlock, blockList, isOpend }) {
       dataset: { optionIndex, value: dataValue },
     } = e.target;
     if (formData[name] === undefined && optionIndex === undefined) return;
-    if ( dataValue !== undefined ) // for radio button
+    if (dataValue !== undefined)
+      // for radio button
       setFormData({
         ...formData,
         [name]: dataValue,
       });
-    else if (optionIndex === undefined) // for text input
+    else if (optionIndex === undefined)
+      // for text input
       setFormData({
         ...formData,
         [name]: value,
       });
-    else { // for option text input
+    else {
+      // for option text input
       setFormData((data) => {
         data.options[optionIndex][name] = value;
         return Object.assign({}, data);
@@ -100,7 +116,11 @@ function ScriptInput({ createNewBlock, blockList, isOpend }) {
 
   const onNewBlockClick = (e) => {
     if (sceneId.length === 0) alert("Scene ID를 입력하세요.");
-    else if (blockList.find((block) => block.sceneId === sceneId && block.sceneType === sceneType)) {
+    else if (
+      blockList.find(
+        (block) => block.sceneId === sceneId
+      )
+    ) {
       alert("중복되는 Scene Type과 Scene ID가 있습니다.");
     } else if (createNewBlock) {
       createNewBlock(Object.assign({}, formData));
