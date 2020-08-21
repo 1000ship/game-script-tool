@@ -23,6 +23,7 @@ function App() {
   const cachedBlockList = loadBlockList();
   let [blockList, setBlockList] = useState(cachedBlockList);
   let [isSceneFormOpened, setIsSceneFormOpened] = useState(false);
+  let [modifySceneId, setModifySceneId] = useState(null);
 
   const toggleSceneForm = () => {
     setIsSceneFormOpened((opened) => !opened);
@@ -31,6 +32,28 @@ function App() {
   const createNewBlock = (blockData) => {
     saveBlockList([...blockList, blockData]);
     setBlockList([...blockList, blockData]);
+  };
+
+  const modifyBlock = (blockData) => {
+    const targetIndex = blockList.findIndex(
+      (data) => data.sceneId === blockData.sceneId
+    );
+    if (targetIndex === -1) {
+      alert(`수정하고자하는 Scene ${blockData.sceneId}을 찾을 수 없습니다.`);
+      return;
+    }
+    saveBlockList([
+      ...blockList.slice(0, targetIndex),
+      blockData,
+      ...blockList.slice(targetIndex + 1),
+    ]);
+    setBlockList([
+      ...blockList.slice(0, targetIndex),
+      blockData,
+      ...blockList.slice(targetIndex + 1),
+    ]);
+    setModifySceneId(null);
+    setIsSceneFormOpened(false);
   };
 
   return (
@@ -43,12 +66,16 @@ function App() {
       <ScriptInput
         blockList={blockList}
         createNewBlock={createNewBlock}
+        modifyBlock={modifyBlock}
         isOpend={isSceneFormOpened}
+        modifySceneId={modifySceneId}
       ></ScriptInput>
       <BlockContainer>
         <ScriptView
           blockList={blockList}
           setBlockList={setBlockList}
+          setModifySceneId={setModifySceneId}
+          setIsSceneFormOpened={setIsSceneFormOpened}
         ></ScriptView>
       </BlockContainer>
     </Container>

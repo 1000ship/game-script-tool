@@ -7,9 +7,14 @@ const Container = styled.div`
   padding: 5px 0px;
 `;
 
-function ScriptView({ blockList, setBlockList }) {
+function ScriptView({
+  blockList,
+  setBlockList,
+  setModifySceneId,
+  setIsSceneFormOpened,
+}) {
   const moveBlockBy = (sceneId, by) => {
-    const index = blockList.findIndex((block) => (block.sceneId === sceneId));
+    const index = blockList.findIndex((block) => block.sceneId === sceneId);
     const at = index + by;
     if (at < 0 || at >= blockList.length) return;
     setBlockList((blockList) => {
@@ -21,14 +26,15 @@ function ScriptView({ blockList, setBlockList }) {
         ...tmpArray.slice(0, at),
         blockList[index],
         ...tmpArray.slice(at),
-      ]
-      saveBlockList(result)
+      ];
+      saveBlockList(result);
       return result;
     });
   };
 
   const removeBlock = (sceneId) => {
-    if( !window.confirm("삭제한 후 되돌릴 수 없습니다. 삭제하시겠습니까?") ) return
+    if (!window.confirm("삭제한 후 되돌릴 수 없습니다. 삭제하시겠습니까?"))
+      return;
     setBlockList((blockList) => {
       const removeIndex = blockList.findIndex(
         (block) => block.sceneId === sceneId
@@ -41,6 +47,11 @@ function ScriptView({ blockList, setBlockList }) {
         .concat(blockList.slice(removeIndex + 1));
     });
   };
+
+  const modifyBlock = (sceneId) => {
+    setIsSceneFormOpened( true )
+    setModifySceneId( sceneId )
+  }
 
   return (
     <Container>
@@ -72,6 +83,7 @@ function ScriptView({ blockList, setBlockList }) {
             sceneType={sceneType}
             moveBlockBy={moveBlockBy}
             removeBlock={removeBlock}
+            modifyBlock={modifyBlock}
           ></ScriptBlock>
         )
       )}

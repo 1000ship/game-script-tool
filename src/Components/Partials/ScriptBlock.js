@@ -69,11 +69,16 @@ function ScriptBlock(props) {
     sceneType,
     moveBlockBy,
     removeBlock,
+    modifyBlock,
   } = props;
 
   const onRemoveClick = () => {
     removeBlock(sceneId)
   };
+
+  const onModifyClick = () => {
+    modifyBlock(sceneId)
+  }
 
   return (
     <Container>
@@ -81,7 +86,7 @@ function ScriptBlock(props) {
         <MenuItem onClick={e => moveBlockBy(sceneId, -1)}>위로</MenuItem>
         <MenuItem onClick={e => moveBlockBy(sceneId, 1)}>아래로</MenuItem>
         <MenuItem onClick={onRemoveClick}>삭제</MenuItem>
-        <MenuItem>수정</MenuItem>
+        <MenuItem onClick={onModifyClick}>수정</MenuItem>
       </MenuGroup>
       <SceneID>{sceneId} <small>{sceneType === "text" ? "💬채팅" : "👥만남"}</small></SceneID>
       <CharacterName>{characterName}</CharacterName>
