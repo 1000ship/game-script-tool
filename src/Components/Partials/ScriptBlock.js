@@ -26,7 +26,8 @@ const SceneScript = styled.div`
   padding: 5px;
   border-radius: 3px;
 `;
-const OptionGroup = styled.div``;
+const OptionGroup = styled.ol``;
+const OptionItem = styled.li``;
 const FileDescription = styled.span`
   margin-right: 10px;
   font-size: 13px;
@@ -88,28 +89,27 @@ function ScriptBlock(props) {
         <MenuItem onClick={onRemoveClick}>삭제</MenuItem>
         <MenuItem onClick={onModifyClick}>수정</MenuItem>
       </MenuGroup>
-      <SceneID>{sceneId} <small>{sceneType === "text" ? "💬채팅" : "👥만남"}</small></SceneID>
-      <CharacterName>{characterName}</CharacterName>
+      <SceneID>{sceneId} <small>{sceneType === "ending" ? "🔚엔딩" : sceneType === "text" ? "💬채팅" : "👥만남"}</small></SceneID>
+      {sceneType !== "ending" && <CharacterName>{characterName}</CharacterName>}
       <SceneScript>{sceneScript}</SceneScript>
-      {characterImage?.length > 0 && <FileDescription>🕺🏻{characterImage}</FileDescription>}
-      {backgroundImage?.length > 0 && <FileDescription>🏞{backgroundImage}</FileDescription>}
-      {sceneSound?.length > 0 && <FileDescription>🔈{sceneSound}</FileDescription>}
-      {options.length === 0 ? 
+      {sceneType !== "ending" &&characterImage?.length > 0 && <FileDescription>🕺🏻{characterImage}</FileDescription>}
+      {sceneType !== "ending" &&backgroundImage?.length > 0 && <FileDescription>🏞{backgroundImage}</FileDescription>}
+      {sceneType !== "ending" &&sceneSound?.length > 0 && <FileDescription>🔈{sceneSound}</FileDescription>}
+      {sceneType !== "ending" && <>{options.length === 0 ? 
         <div>Next Scene ID : {nextSceneId}</div>
       : (
-        <ol>
+        <OptionGroup>
           {options.map(({ answer, reaction, nextId }, i) => (
-            <li key={i}>
+            <OptionItem key={i}>
               {answer?.length > 0 ? <Script color="lightcyan">{answer}</Script> : null}
               {answer?.length > 0 ? ' → ' : null}
               {reaction?.length > 0 ? <Script color='lightyellow'>{reaction}</Script> : null}
               {reaction?.length > 0 ? ' → ' : null}
               {nextId}
-            </li>
+            </OptionItem>
           ))}
-        </ol>
-      )}
-      <OptionGroup></OptionGroup>
+        </OptionGroup>
+      )}</>}
     </Container>
   );
 }
