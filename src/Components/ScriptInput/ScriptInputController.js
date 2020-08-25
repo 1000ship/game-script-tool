@@ -14,7 +14,16 @@ function ScriptInput({
     ? blockList.find((data) => data.sceneId === modifySceneId)
     : DEFAULT_SCENE;
   useEffect(() => {
-    setFormData(defaultScene);
+    setFormData({
+      ...defaultScene,
+      options: [
+        {
+          answer: "",
+          reaction: "",
+          nextId: "",
+        },
+      ],
+    });
   }, [defaultScene]);
 
   let [formData, setFormData] = useState(defaultScene);
@@ -73,7 +82,16 @@ function ScriptInput({
       alert("중복되는 Scene Type과 Scene ID가 있습니다.");
     } else if (createNewBlock) {
       createNewBlock(Object.assign({}, formData));
-      setFormData(defaultScene);
+      setFormData({
+        ...defaultScene,
+        options: [
+          {
+            answer: "",
+            reaction: "",
+            nextId: "",
+          },
+        ],
+      });
     }
   };
 
