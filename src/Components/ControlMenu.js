@@ -25,9 +25,7 @@ const ControlMenu = ({
     setIsSceneFormOpened((isOpend) => !isOpend);
     setModifySceneId(null);
   };
-
-  const onAddEndingBlockClick = (e) => {};
-
+  
   const onImportClick = (e) => {
     importScript((data) => {
       setBlockList(data);
@@ -50,9 +48,6 @@ const ControlMenu = ({
       <ControlButton onClick={onClearScriptClick}>Clear Script</ControlButton>
       <ControlButton onClick={onAddSceneBlockClick}>
         Add Scene Block
-      </ControlButton>
-      <ControlButton onClick={onAddEndingBlockClick}>
-        Add Ending Block(미완성)
       </ControlButton>
       <ControlButton onClick={onImportClick}>Import Script</ControlButton>
       <ControlButton onClick={onExportClick}>Export Script</ControlButton>
