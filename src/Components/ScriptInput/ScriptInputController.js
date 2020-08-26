@@ -15,14 +15,7 @@ function ScriptInput({
     : DEFAULT_SCENE;
   useEffect(() => {
     setFormData({
-      ...defaultScene,
-      options: [
-        {
-          answer: "",
-          reaction: "",
-          nextId: "",
-        },
-      ],
+      ...defaultScene
     });
   }, [defaultScene]);
 
