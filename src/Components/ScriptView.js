@@ -84,6 +84,7 @@ function ScriptView({
             moveBlockBy={moveBlockBy}
             removeBlock={removeBlock}
             modifyBlock={modifyBlock}
+            blockList={blockList}
           ></ScriptBlock>
         )
       )}

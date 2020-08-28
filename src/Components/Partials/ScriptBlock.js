@@ -1,6 +1,11 @@
 import React from "react";
 import styled from "styled-components";
 
+const Red = styled.span`
+  color: red;
+  font-weight: bolder;
+`;
+
 const Container = styled.div`
   background-color: #efefef;
   padding: 10px;
@@ -33,7 +38,7 @@ const FileDescription = styled.span`
   font-size: 13px;
 `;
 const Script = styled.span`
-  background-color: ${props => props.color ? props.color : 'white'};
+  background-color: ${(props) => (props.color ? props.color : "white")};
   border-radius: 5px;
   padding: 3px;
   display: inline-block;
@@ -71,45 +76,74 @@ function ScriptBlock(props) {
     moveBlockBy,
     removeBlock,
     modifyBlock,
+    blockList,
   } = props;
 
   const onRemoveClick = () => {
-    removeBlock(sceneId)
+    removeBlock(sceneId);
   };
 
   const onModifyClick = () => {
-    modifyBlock(sceneId)
-  }
+    modifyBlock(sceneId);
+  };
 
   return (
     <Container>
       <MenuGroup>
-        <MenuItem onClick={e => moveBlockBy(sceneId, -1)}>위로</MenuItem>
-        <MenuItem onClick={e => moveBlockBy(sceneId, 1)}>아래로</MenuItem>
+        <MenuItem onClick={(e) => moveBlockBy(sceneId, -1)}>위로</MenuItem>
+        <MenuItem onClick={(e) => moveBlockBy(sceneId, 1)}>아래로</MenuItem>
         <MenuItem onClick={onRemoveClick}>삭제</MenuItem>
         <MenuItem onClick={onModifyClick}>수정</MenuItem>
       </MenuGroup>
-      <SceneID>{sceneId} <small>{sceneType === "ending" ? "🔚엔딩" : sceneType === "text" ? "💬채팅" : "👥만남"}</small></SceneID>
+      <SceneID>
+        {sceneId}{" "}
+        <small>
+          {sceneType === "ending"
+            ? "🔚엔딩"
+            : sceneType === "text"
+            ? "💬채팅"
+            : "👥만남"}
+        </small>
+      </SceneID>
       {sceneType !== "ending" && <CharacterName>{characterName}</CharacterName>}
       <SceneScript>{sceneScript}</SceneScript>
-      {sceneType !== "ending" &&characterImage?.length > 0 && <FileDescription>🕺🏻{characterImage}</FileDescription>}
-      {sceneType !== "ending" &&backgroundImage?.length > 0 && <FileDescription>🏞{backgroundImage}</FileDescription>}
-      {sceneType !== "ending" &&sceneSound?.length > 0 && <FileDescription>🔈{sceneSound}</FileDescription>}
-      {sceneType !== "ending" && <>{options.length === 0 ? 
-        <div>Next Scene ID : {nextSceneId}</div>
-      : (
-        <OptionGroup>
-          {options.map(({ answer, reaction, nextId }, i) => (
-            <OptionItem key={i}>
-              {answer?.length > 0 ? <Script color="lightcyan">{answer}</Script> : null}
-              {answer?.length > 0 ? ' → ' : null}
-              {reaction?.length > 0 ? <Script color='lightyellow'>{reaction}</Script> : null}
-              {reaction?.length > 0 ? ' → ' : null}
-              {nextId}
-            </OptionItem>
-          ))}
-        </OptionGroup>
-      )}</>}
+      {sceneType !== "ending" && characterImage?.length > 0 && (
+        <FileDescription>🕺🏻{characterImage}</FileDescription>
+      )}
+      {sceneType !== "ending" && backgroundImage?.length > 0 && (
+        <FileDescription>🏞{backgroundImage}</FileDescription>
+      )}
+      {sceneType !== "ending" && sceneSound?.length > 0 && (
+        <FileDescription>🔈{sceneSound}</FileDescription>
+      )}
+      {sceneType !== "ending" && (
+        <>
+          {options.length === 0 ? (
+            <div>Next Scene ID : {nextSceneId}</div>
+          ) : (
+            <OptionGroup>
+              {options.map(({ answer, reaction, nextId }, i) => (
+                <OptionItem key={i}>
+                  {answer?.length > 0 ? (
+                    <Script color="lightcyan">{answer}</Script>
+                  ) : null}
+                  {answer?.length > 0 ? " → " : null}
+                  {reaction?.length > 0 ? (
+                    <Script color="lightyellow">{reaction}</Script>
+                  ) : null}
+                  {reaction?.length > 0 ? " → " : null}
+                  {blockList.findIndex((block) => block.sceneId === nextId) ===
+                  -1 ? (
+                    <Red>{nextId}</Red>
+                  ) : (
+                    nextId
+                  )}
+                </OptionItem>
+              ))}
+            </OptionGroup>
+          )}
+        </>
+      )}
     </Container>
   );
 }
