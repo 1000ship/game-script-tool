@@ -132,8 +132,7 @@ function ScriptBlock(props) {
                     <Script color="lightyellow">{reaction}</Script>
                   ) : null}
                   {reaction?.length > 0 ? " → " : null}
-                  {blockList.findIndex((block) => block.sceneId === nextId) ===
-                  -1 ? (
+                  {blockList.findIndex((block) => block.sceneId === nextId) === -1 ? (
                     <Red>{nextId}</Red>
                   ) : (
                     nextId
