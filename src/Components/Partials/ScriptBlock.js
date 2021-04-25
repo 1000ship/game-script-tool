@@ -1,7 +1,12 @@
 import React from "react";
 import styled from "styled-components";
 
-const Red = styled.span`
+const Anchor = styled.a`
+  color: inherit;
+  text-decoration: none;
+`;
+
+const Red = styled(Anchor)`
   color: red;
   font-weight: bolder;
 `;
@@ -63,13 +68,14 @@ const MenuItem = styled.li`
 `;
 
 function ScriptBlock(props) {
-  var {
+  const {
     sceneId,
     characterName,
     sceneScript,
     characterImage,
     backgroundImage,
     sceneSound,
+    backgroundSound,
     options,
     nextSceneId,
     sceneType,
@@ -87,34 +93,47 @@ function ScriptBlock(props) {
     modifyBlock(sceneId);
   };
 
+  const alertMessage = ( message ) => (e) => {
+    alert(message);
+  }
+
   return (
-    <Container>
+    <Container id={sceneId}>
       <MenuGroup>
         <MenuItem onClick={(e) => moveBlockBy(sceneId, -1)}>위로</MenuItem>
         <MenuItem onClick={(e) => moveBlockBy(sceneId, 1)}>아래로</MenuItem>
         <MenuItem onClick={onRemoveClick}>삭제</MenuItem>
         <MenuItem onClick={onModifyClick}>수정</MenuItem>
       </MenuGroup>
-      <SceneID>
-        {sceneId}{" "}
-        <small>
-          {sceneType === "ending"
-            ? "🔚엔딩"
-            : sceneType === "text"
-            ? "💬채팅"
-            : "👥만남"}
-        </small>
-      </SceneID>
+      <Anchor href={`#${sceneId}`}>
+        <SceneID>
+          {sceneId}{" "}
+          <small>
+            {sceneType === "ending" ? "🔚엔딩" : sceneType === "text" ? "💬채팅" : "👥만남"}
+          </small>
+        </SceneID>
+      </Anchor>
       {sceneType !== "ending" && <CharacterName>{characterName}</CharacterName>}
       <SceneScript>{sceneScript}</SceneScript>
       {sceneType !== "ending" && characterImage?.length > 0 && (
-        <FileDescription>🕺🏻{characterImage}</FileDescription>
+        <FileDescription aria-label="man">
+          🕺🏻캐릭터이미지 <b>"{characterImage}"</b>
+        </FileDescription>
       )}
       {sceneType !== "ending" && backgroundImage?.length > 0 && (
-        <FileDescription>🏞{backgroundImage}</FileDescription>
+        <FileDescription aria-label="landscape">
+          🏞배경이미지 <b>"{backgroundImage}"</b>
+        </FileDescription>
       )}
       {sceneType !== "ending" && sceneSound?.length > 0 && (
-        <FileDescription>🔈{sceneSound}</FileDescription>
+        <FileDescription aria-label="speaker">
+          🔈대사 <b>"{sceneSound}"</b>
+        </FileDescription>
+      )}
+      {sceneType !== "ending" && backgroundSound?.length > 0 && (
+        <FileDescription aria-label="music">
+          🎼배경음악 <b>"{backgroundSound}"</b>
+        </FileDescription>
       )}
       {sceneType !== "ending" && (
         <>
@@ -125,18 +144,25 @@ function ScriptBlock(props) {
               {options.map(({ answer, reaction, nextId }, i) => (
                 <OptionItem key={i}>
                   {answer?.length > 0 ? (
-                    <Script color="lightcyan">{answer}</Script>
+                    <>
+                      <Script color="lightcyan">{answer}</Script> 선택 시
+                    </>
                   ) : null}
                   {answer?.length > 0 ? " → " : null}
                   {reaction?.length > 0 ? (
-                    <Script color="lightyellow">{reaction}</Script>
+                    <>
+                      <Script color="lightyellow">{reaction}</Script> 반응
+                    </>
                   ) : null}
                   {reaction?.length > 0 ? " → " : null}
-                  {blockList.findIndex((block) => block.sceneId === nextId) === -1 ? (
-                    <Red>{nextId}</Red>
-                  ) : (
-                    nextId
-                  )}
+                    {blockList.findIndex((block) => block.sceneId === nextId) === -1 ? (
+                      <Red href="#" onClick={alertMessage("존재하지 않는 Scene ID 입니다.")}>{nextId}</Red>
+                    ) : (
+                      <Anchor href={`#${nextId}`}>
+                        <b>{nextId}</b>
+                      </Anchor>
+                    )}{" "}
+                    장면 이동
                 </OptionItem>
               ))}
             </OptionGroup>

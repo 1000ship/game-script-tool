@@ -3,21 +3,9 @@ import ScriptInputPresenter from "./ScriptInputPresenter";
 import { OPTION_MINIMUM_COUNT } from "../../Utils/Constant";
 import { DEFAULT_SCENE } from "./constant";
 
-function ScriptInput({
-  createNewBlock,
-  modifyBlock,
-  blockList,
-  isOpend,
-  modifySceneId = null,
-}) {
-  const defaultScene = modifySceneId
-    ? blockList.find((data) => data.sceneId === modifySceneId)
-    : DEFAULT_SCENE;
-  useEffect(() => {
-    setFormData({
-      ...defaultScene
-    });
-  }, [defaultScene]);
+function ScriptInput({ createNewBlock, modifyBlock, blockList, isOpend, modifySceneId = null }) {
+  const defaultScene = modifySceneId ? blockList.find((data) => data.sceneId === modifySceneId) : DEFAULT_SCENE;
+  useEffect(() => { setFormData({ ...defaultScene }); }, [defaultScene]);
 
   let [formData, setFormData] = useState(defaultScene);
   let { sceneId, options } = formData;

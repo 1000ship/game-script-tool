@@ -5,6 +5,7 @@ export const DEFAULT_SCENE = {
   characterImage: "",
   backgroundImage: "",
   sceneSound: "",
+  backgroundSound: "",
   nextSceneId: "",
   options: [
     {

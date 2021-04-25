@@ -56,31 +56,10 @@ function ScriptView({
   return (
     <Container>
       {blockList.map(
-        (
-          {
-            sceneId,
-            characterName,
-            sceneScript,
-            characterImage,
-            backgroundImage,
-            sceneSound,
-            options,
-            nextSceneId,
-            sceneType,
-          },
-          i
-        ) => (
+        ( block, i ) => (
           <ScriptBlock
-            key={sceneId}
-            sceneId={sceneId}
-            characterName={characterName}
-            sceneScript={sceneScript}
-            characterImage={characterImage}
-            backgroundImage={backgroundImage}
-            sceneSound={sceneSound}
-            options={options}
-            nextSceneId={nextSceneId}
-            sceneType={sceneType}
+            key={block.sceneId}
+            {...block}
             moveBlockBy={moveBlockBy}
             removeBlock={removeBlock}
             modifyBlock={modifyBlock}

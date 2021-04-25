@@ -27,26 +27,7 @@ const TextArea = styled.textarea`
   display: block;
 `;
 
-const ScriptInputPresenter = ({
-  isOpend,
-  isModifyMode,
-  formData: {
-    sceneId,
-    characterName,
-    sceneScript,
-    characterImage,
-    backgroundImage,
-    sceneSound,
-    nextSceneId,
-    options,
-    sceneType,
-  },
-  onInputChange,
-  onOptionAddClick,
-  onOptionRemoveClick,
-  onNewBlockClick,
-  onModifyBlockClick,
-}) => (
+const ScriptInputPresenter = ({ isOpend, isModifyMode, formData: { sceneId, characterName, sceneScript, characterImage, backgroundImage, sceneSound, backgroundSound, nextSceneId, options, sceneType }, onInputChange, onOptionAddClick, onOptionRemoveClick, onNewBlockClick, onModifyBlockClick}) => (
   <Container isOpend={isOpend}>
     <InputPair>
       <span>Scene Type : </span>
@@ -153,6 +134,17 @@ const ScriptInputPresenter = ({
             id="scene-sound"
             type="text"
             placeholder="laugh.mp3 (선택입력)"
+          ></TextInput>
+        </InputPair>
+        <InputPair>
+          <Label htmlFor="background-sound">Background Sound : </Label>
+          <TextInput
+            name="backgroundSound"
+            value={backgroundSound}
+            onChange={onInputChange}
+            id="background-sound"
+            type="text"
+            placeholder="cafe.mp3 (선택입력)"
           ></TextInput>
         </InputPair>
       </InputGroup>
