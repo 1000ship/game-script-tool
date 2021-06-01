@@ -19,10 +19,6 @@ function ScriptInput({ createNewBlock, modifyBlock }) {
 
   let [formData, setFormData] = useState(defaultScene);
 
-  useEffect(() => {
-    console.log(formData);
-  }, [formData]);
-
   const onInputChange = (e) => {
     const {
       name,
