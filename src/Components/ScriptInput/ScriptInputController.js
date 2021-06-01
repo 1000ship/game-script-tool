@@ -1,14 +1,27 @@
-import React, { useState, useEffect } from "react";
-import ScriptInputPresenter from "./ScriptInputPresenter";
+import React, { useEffect, useMemo, useState } from "react";
+import { useRecoilValue } from "recoil";
+import { appStateAtom } from "../../Stores/atom";
+import { blockListSelector } from "../../Stores/selector";
 import { OPTION_MINIMUM_COUNT } from "../../Utils/Constant";
 import { DEFAULT_SCENE } from "./constant";
+import ScriptInputPresenter from "./ScriptInputPresenter";
 
-function ScriptInput({ createNewBlock, modifyBlock, blockList, isOpend, modifySceneId = null }) {
-  const defaultScene = modifySceneId ? blockList.find((data) => data.sceneId === modifySceneId) : DEFAULT_SCENE;
-  useEffect(() => { setFormData({ ...defaultScene }); }, [defaultScene]);
+function ScriptInput({ createNewBlock, modifyBlock }) {
+  const appState = useRecoilValue(appStateAtom);
+  const blockList = useRecoilValue(blockListSelector);
+  const { modifySceneId } = appState;
+
+  const defaultScene = useMemo(() => (modifySceneId ? blockList.find((data) => data.sceneId === modifySceneId) : DEFAULT_SCENE), [blockList, modifySceneId]);
+  useEffect(() => {
+    setFormData({ ...defaultScene });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   let [formData, setFormData] = useState(defaultScene);
-  let { sceneId, options } = formData;
+
+  useEffect(() => {
+    console.log(formData);
+  }, [formData]);
 
   const onInputChange = (e) => {
     const {
@@ -16,24 +29,17 @@ function ScriptInput({ createNewBlock, modifyBlock, blockList, isOpend, modifySc
       value,
       dataset: { optionIndex, value: dataValue },
     } = e.target;
-    if (formData[name] === undefined && optionIndex === undefined) return;
-    if (dataValue !== undefined)
-      // for radio button
-      setFormData({
-        ...formData,
-        [name]: dataValue,
-      });
-    else if (optionIndex === undefined)
-      // for text input
-      setFormData({
-        ...formData,
-        [name]: value,
-      });
-    else {
+    if (optionIndex !== undefined) {
       // for option text input
       setFormData((data) => {
         data.options[optionIndex][name] = value;
-        return Object.assign({}, data);
+        return { ...data };
+      });
+    } else {
+      // for text input, radio button
+      setFormData({
+        ...formData,
+        [name]: dataValue ? dataValue : value,
       });
     }
   };
@@ -50,19 +56,19 @@ function ScriptInput({ createNewBlock, modifyBlock, blockList, isOpend, modifySc
   };
 
   const onOptionRemoveClick = (e) => {
-    if (options.length > OPTION_MINIMUM_COUNT)
-      setFormData({
+    if (formData.options.length > OPTION_MINIMUM_COUNT)
+      setFormData((formData) => ({
         ...formData,
-        options: options.slice(0, options.length - 1),
-      });
+        options: formData.options.slice(0, formData.options.length - 1),
+      }));
   };
 
   const onNewBlockClick = (e) => {
-    if (sceneId.length === 0) alert("Scene ID를 입력하세요.");
-    else if (blockList.find((block) => block.sceneId === sceneId)) {
+    if (formData.sceneId.length === 0) alert("Scene ID를 입력하세요.");
+    else if (blockList.find((block) => block.sceneId === formData.sceneId)) {
       alert("중복되는 Scene Type과 Scene ID가 있습니다.");
     } else if (createNewBlock) {
-      createNewBlock(Object.assign({}, formData));
+      createNewBlock({ ...formData });
       setFormData({
         ...defaultScene,
         options: [
@@ -76,13 +82,10 @@ function ScriptInput({ createNewBlock, modifyBlock, blockList, isOpend, modifySc
     }
   };
 
-  const onModifyBlockClick = (e) => {
-    modifyBlock(Object.assign({}, formData));
-  };
+  const onModifyBlockClick = (e) => modifyBlock({ ...formData });
 
   return (
     <ScriptInputPresenter
-      isOpend={isOpend}
       isModifyMode={modifySceneId !== null}
       formData={formData}
       onInputChange={onInputChange}

@@ -1,3 +1,4 @@
+/* eslint-disable jsx-a11y/accessible-emoji */
 import React from "react";
 import styled from "styled-components";
 
@@ -67,81 +68,63 @@ const MenuItem = styled.li`
   }
 `;
 
-function ScriptBlock(props) {
-  const {
-    sceneId,
-    characterName,
-    sceneScript,
-    characterImage,
-    backgroundImage,
-    sceneSound,
-    backgroundSound,
-    options,
-    nextSceneId,
-    sceneType,
-    moveBlockBy,
-    removeBlock,
-    modifyBlock,
-    blockList,
-  } = props;
+const ScriptBlock = (props) => {
+  const { block, moveBlockBy, removeBlock, modifyBlock, blockList } = props;
 
   const onRemoveClick = () => {
-    removeBlock(sceneId);
+    removeBlock(block.sceneId);
   };
 
   const onModifyClick = () => {
-    modifyBlock(sceneId);
+    modifyBlock(block.sceneId);
   };
 
-  const alertMessage = ( message ) => (e) => {
+  const alertMessage = (message) => (e) => {
     alert(message);
-  }
+  };
 
   return (
-    <Container id={sceneId}>
+    <Container id={block.sceneId}>
       <MenuGroup>
-        <MenuItem onClick={(e) => moveBlockBy(sceneId, -1)}>위로</MenuItem>
-        <MenuItem onClick={(e) => moveBlockBy(sceneId, 1)}>아래로</MenuItem>
+        <MenuItem onClick={(e) => moveBlockBy(block.sceneId, -1)}>위로</MenuItem>
+        <MenuItem onClick={(e) => moveBlockBy(block.sceneId, 1)}>아래로</MenuItem>
         <MenuItem onClick={onRemoveClick}>삭제</MenuItem>
         <MenuItem onClick={onModifyClick}>수정</MenuItem>
       </MenuGroup>
-      <Anchor href={`#${sceneId}`}>
+      <Anchor href={`#${block.sceneId}`}>
         <SceneID>
-          {sceneId}{" "}
-          <small>
-            {sceneType === "ending" ? "🔚엔딩" : sceneType === "text" ? "💬채팅" : "👥만남"}
-          </small>
+          {block.sceneId} <small>{block.sceneType === "ending" ? "🔚엔딩" : block.sceneType === "text" ? "💬채팅" : "👥만남"}</small>
         </SceneID>
       </Anchor>
-      {sceneType !== "ending" && <CharacterName>{characterName}</CharacterName>}
-      <SceneScript>{sceneScript}</SceneScript>
-      {sceneType !== "ending" && characterImage?.length > 0 && (
+      {block.sceneType !== "ending" && <CharacterName>{block.characterName}</CharacterName>}
+      <SceneScript>{block.sceneScript}</SceneScript>
+      {block.sceneType !== "ending" && block.characterImage?.length > 0 && (
         <FileDescription aria-label="man">
-          🕺🏻캐릭터이미지 <b>"{characterImage}"</b>
+          🕺🏻캐릭터이미지 <b>"{block.characterImage}"</b>
         </FileDescription>
       )}
-      {sceneType !== "ending" && backgroundImage?.length > 0 && (
+      {block.sceneType !== "ending" && block.backgroundImage?.length > 0 && (
         <FileDescription aria-label="landscape">
-          🏞배경이미지 <b>"{backgroundImage}"</b>
+          🏞배경이미지 <b>"{block.backgroundImage}"</b>
         </FileDescription>
       )}
-      {sceneType !== "ending" && sceneSound?.length > 0 && (
+      {block.sceneType !== "ending" && block.sceneSound?.length > 0 && (
         <FileDescription aria-label="speaker">
-          🔈대사 <b>"{sceneSound}"</b>
+          🔈대사 <b>"{block.sceneSound}"</b>
         </FileDescription>
       )}
-      {sceneType !== "ending" && backgroundSound?.length > 0 && (
+      {block.sceneType !== "ending" && block.backgroundSound?.length > 0 && (
         <FileDescription aria-label="music">
-          🎼배경음악 <b>"{backgroundSound}"</b>
+          🎼배경음악 <b>"{block.backgroundSound}"</b>
         </FileDescription>
       )}
-      {sceneType !== "ending" && (
+      {block.sceneType !== "ending" && (
         <>
-          {options.length === 0 ? (
-            <div>Next Scene ID : {nextSceneId}</div>
+          {block.options.length === 0 ? (
+            <div>Next Scene ID : {block.nextSceneId}</div>
           ) : (
             <OptionGroup>
-              {options.map(({ answer, reaction, nextId }, i) => (
+              {block.options.map(({ answer, reaction, nextId }, i) => (
                 <OptionItem key={i}>
                   {answer?.length > 0 ? (
                     <>
@@ -155,14 +138,16 @@ function ScriptBlock(props) {
                     </>
                   ) : null}
                   {reaction?.length > 0 ? " → " : null}
-                    {blockList.findIndex((block) => block.sceneId === nextId) === -1 ? (
-                      <Red href="#" onClick={alertMessage("존재하지 않는 Scene ID 입니다.")}>{nextId}</Red>
-                    ) : (
-                      <Anchor href={`#${nextId}`}>
-                        <b>{nextId}</b>
-                      </Anchor>
-                    )}{" "}
-                    장면 이동
+                  {blockList.findIndex((block) => block.sceneId === nextId) === -1 ? (
+                    <Red href="#" onClick={alertMessage("존재하지 않는 Scene ID 입니다.")}>
+                      {nextId}
+                    </Red>
+                  ) : (
+                    <Anchor href={`#${nextId}`}>
+                      <b>{nextId}</b>
+                    </Anchor>
+                  )}{" "}
+                  장면 이동
                 </OptionItem>
               ))}
             </OptionGroup>
@@ -171,6 +156,6 @@ function ScriptBlock(props) {
       )}
     </Container>
   );
-}
+};
 
 export default ScriptBlock;
